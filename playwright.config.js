@@ -8,7 +8,7 @@ const config = {
   testDir: "./tests",
   timeout: 400000,
   expect: {
-    timeout: 40000,
+    timeout: 5000,
   },
   reporter: "html",
   use: {
