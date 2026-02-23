@@ -1,6 +1,6 @@
 const { test, expect } = require("@playwright/test");
 
-test.only("Browser Context Playwright test", async ({ browser }) => {
+test("Browser Context Playwright test", async ({ browser }) => {
   const context = await browser.newContext();
   const page = await context.newPage();
   const userName = page.locator("#username");
@@ -28,9 +28,17 @@ test.only("Browser Context Playwright test", async ({ browser }) => {
   console.log(allTitles);
 });
 
-test("Page Playwright test", async ({ page }) => {
-  await page.goto("https://google.com");
-  //get title - assertion
-  console.log(await page.title());
-  await expect(page).toHaveTitle("Google");
+test.only("UI Controls", async ({ page }) => {
+  await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+  const userName = page.locator("#username");
+  const signIn = page.locator("#signInBtn");
+
+  //dropdown
+  const dropdown = page.locator("select.form-control");
+  await dropdown.selectOption("consult");
+
+  //radio button
+  await page.locator(".radiotextsty").nth(1).click();
+  await page.locator("#okayBtn").click();
+  await page.pause(); //execution will pause before closing as it is very fast
 });
