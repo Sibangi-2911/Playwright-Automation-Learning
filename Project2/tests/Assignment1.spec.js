@@ -17,3 +17,10 @@ test.only("Login Test", async ({ browser }) => {
   const allTitles = await cardTitle.allTextContents();
   console.log(allTitles);
 });
+
+test("Page Playwright test", async ({ page }) => {
+  await page.goto("https://google.com");
+  //get title - assertion
+  console.log(await page.title());
+  await expect(page).toHaveTitle("Google");
+});
