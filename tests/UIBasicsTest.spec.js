@@ -40,5 +40,16 @@ test.only("UI Controls", async ({ page }) => {
   //radio button
   await page.locator(".radiotextsty").nth(1).click();
   await page.locator("#okayBtn").click();
-  await page.pause(); //execution will pause before closing as it is very fast
+
+  //to ensure that the radio btn is checked
+  console.log(page.locator(".radiotextsty").last().isChecked());
+  await expect(page.locator(".radiotextsty").last()).toBeChecked();
+
+  //checkbox
+  await page.locator("#terms").click();
+  await expect(page.locator("#terms")).toBeChecked();
+  await page.locator("#terms").uncheck();
+  expect(await page.locator("#terms").isChecked()).toBeFalsy();
+
+  //await page.pause(); //execution will pause before closing , as it is very fast
 });
