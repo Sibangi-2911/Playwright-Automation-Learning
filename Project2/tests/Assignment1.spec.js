@@ -1,6 +1,7 @@
 const { test, expect } = require("@playwright/test");
 
 test.only("Login Test", async ({ browser }) => {
+  const email = "sibangiboxipatro@gmail.com";
   const context = await browser.newContext();
   const page = await context.newPage();
   const products = page.locator(".card-body");
@@ -10,7 +11,7 @@ test.only("Login Test", async ({ browser }) => {
   console.log(await page.title());
   await expect(page).toHaveTitle("Let's Shop");
 
-  await page.locator("#userEmail").fill("sibangiboxipatro@gmail.com");
+  await page.locator("#userEmail").fill(email);
   await page.locator("#userPassword").fill("Sibangi@123");
   await page.locator("#login").click();
 
@@ -72,6 +73,24 @@ test.only("Login Test", async ({ browser }) => {
     }
   }
 
+  //Shipping Information email
+  await expect(page.locator(".user__name [type='text']").first()).toHaveText(
+    email,
+  );
+
+  //place order button
+  await page.locator(".action__submit").click();
+
+  //order confirmation page
+  await expect(page.locator(".hero-primary")).toHaveText(
+    " Thankyou for the order. ",
+  );
+
+  //grab order id
+  const orderId = await page
+    .locator(".em-spacer-1 .ng-star-inserted")
+    .textContent();
+  console.log(orderId);
   await page.pause();
 });
 
