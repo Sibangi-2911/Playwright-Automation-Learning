@@ -3,6 +3,8 @@ const { test, expect } = require("@playwright/test");
 test.only("Login Test", async ({ browser }) => {
   const context = await browser.newContext();
   const page = await context.newPage();
+  const products = page.locator(".card-body");
+  const productName = "ZARA COAT 3";
   const cardTitle = page.locator(".card-body b");
   await page.goto("https://rahulshettyacademy.com/client/#/auth/login");
   console.log(await page.title());
@@ -14,8 +16,20 @@ test.only("Login Test", async ({ browser }) => {
 
   //wait mechanism in service based applications
   await page.waitForLoadState("networkidle");
+  await page.locator(".card-body b").first().waitFor();
   const allTitles = await cardTitle.allTextContents();
   console.log(allTitles);
+
+  //end to end automation testing
+  const count = await products.count();
+  for (let i = 0; i < count; i++) {
+    if ((await products.nth(i).locator("b").textContent()) == productName) {
+      //logic to add to cart
+      await products.nth(i).locator("text =  Add To Cart").click();
+      break;
+    }
+  }
+  await page.pause();
 });
 
 test("Page Playwright test", async ({ page }) => {
