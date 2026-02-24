@@ -29,7 +29,10 @@ test.only("Login Test", async ({ browser }) => {
       break;
     }
   }
-  await page.pause();
+  await page.locator("[routerlink*='cart']").click();
+  await page.locator("div li").first().waitFor(); //becoz isVisible doesn't support auto wait
+  const bool = await page.locator("h3:has-text('ZARA COAT 3')").isVisible(); // has-text is pseudo class
+  expect(bool).toBeTruthy();
 });
 
 test("Page Playwright test", async ({ page }) => {
