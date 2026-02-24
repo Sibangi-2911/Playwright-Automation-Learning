@@ -28,7 +28,7 @@ test("Browser Context Playwright test", async ({ browser }) => {
   console.log(allTitles);
 });
 
-test.only("UI Controls", async ({ page }) => {
+test("UI Controls", async ({ page }) => {
   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
   const userName = page.locator("#username");
   const signIn = page.locator("#signInBtn");
@@ -56,4 +56,28 @@ test.only("UI Controls", async ({ page }) => {
   await expect(documentLink).toHaveAttribute("class", "blinkingText");
 
   //await page.pause(); //execution will pause before closing , as it is very fast
+});
+
+test.only("Child Windows Handling", async ({ browser }) => {
+  //original page
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  const userName = page.locator("#username");
+  await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+  const documentLink = page.locator('[href*="documents-request"]');
+
+  //new page
+  const [newPage] = await Promise.all([
+    context.waitForEvent("page"), //this has to wait for any page is opening in background
+    documentLink.click(),
+  ]); //new page opened
+
+  const text = await newPage.locator(".red").textContent();
+  const arrayText = text.split("@");
+  const domain = arrayText[1].split(" ")[0];
+  console.log(domain);
+  //place this domain name in the original page username
+  await page.locator("#username").fill(domain);
+  await page.pause();
+  console.log(await page.locator("#username").inputValue());
 });
