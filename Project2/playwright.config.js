@@ -1,21 +1,19 @@
 // @ts-check
-import { defineConfig, devices, expect } from "@playwright/test";
+const { defineConfig } = require("@playwright/test");
 
-/**
- * @see https://playwright.dev/docs/test-configuration
- */
-
-const config = {
+module.exports = defineConfig({
   testDir: "./tests",
   timeout: 40000,
+
   expect: {
     timeout: 5000,
   },
+
   reporter: "html",
+
   use: {
     browserName: "chromium",
-    headless: false,
+    headless: false, // ⭐ browser visible
+    slowMo: 1000, // ⭐ slow execution
   },
-};
-
-module.exports = config;
+});
