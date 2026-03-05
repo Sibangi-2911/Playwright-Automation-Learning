@@ -14,6 +14,8 @@ module.exports = defineConfig({
   use: {
     browserName: "chromium",
     headless: false, // ⭐ browser visible
-    slowMo: 1000, // ⭐ slow execution
+    launchOptions: {
+      slowMo: 800, // ✅ 0.8 second delay per action
+    },
   },
 });
