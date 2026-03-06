@@ -4,6 +4,7 @@ const { defineConfig } = require("@playwright/test");
 module.exports = defineConfig({
   testDir: "./tests",
   timeout: 40000,
+  workers: 1, // ⭐ ensures browsers run one after another
 
   expect: {
     timeout: 5000,
@@ -12,10 +13,15 @@ module.exports = defineConfig({
   reporter: "html",
 
   use: {
-    browserName: "chromium",
-    headless: false, // ⭐ browser visible
+    headless: false,
     launchOptions: {
-      slowMo: 800, // ✅ 0.8 second delay per action
+      slowMo: 800,
     },
   },
+
+  projects: [
+    { name: "Chromium", use: { browserName: "chromium" } },
+    { name: "Firefox", use: { browserName: "firefox" } },
+    { name: "WebKit", use: { browserName: "webkit" } },
+  ],
 });
