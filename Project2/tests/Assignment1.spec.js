@@ -1,5 +1,6 @@
 const { test, expect } = require("@playwright/test");
 
+//login
 test.only("Login Test", async ({ browser }) => {
   const email = "sibangiboxipatro@gmail.com";
   const context = await browser.newContext();
