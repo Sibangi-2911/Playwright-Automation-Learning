@@ -43,4 +43,30 @@ test("Create event → Book event → Verify seat reduction", async ({ page }) =
   await expect(page.getByText("Event created!")).toBeVisible();
 
   //Step 3 — Find the event card and capture seats
+  await page.goto(`${BASE_URL}/events`);
+  const cards = page.locator("#event-card");
+  await expect(cards.first()).toBeVisible();
+  const eventCard = cards.filter({ hasText: eventTitle });
+  await expect(eventCard).toBeVisible({ timeout: 5000 });
+  const seatText = await eventCard.locator("text=/seat/i").innerText();
+  const seatsBeforeBooking = parseInt(seatText.match(/\d+/)[0]);
+
+  // Step 4 — Start booking
+  await eventCard.locator('[data-testid="book-now-btn"]').click();
+
+  // Step 5 — Fill booking form
+  await expect(page.locator("#ticket-count")).toHaveText("1");
+  await page.getByLabel("Full Name").fill("Sibangi");
+  await page.locator("#customer-email").fill("sibangiboxipatro@gmail.com");
+  await page.getByPlaceholder("+91 98765 43210").fill("9876543210");
+  await page.locator("#confirm-booking").click();
+
+  //Step 6 — Verify booking confirmation
+  const bookingRefElement = page.locator(".booking-ref").first();
+  await expect(bookingRefElement).toBeVisible();
+  const bookingRef = (await bookingRefElement.innerText()).trim();
+
+  // Step 7 — Verify in My Bookings
+  await page.getByText("View My Bookings").click();
+  await expect(page).toHaveURL(`${BASE_URL}/bookings`);
 });
