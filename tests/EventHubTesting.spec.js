@@ -69,4 +69,20 @@ test("Create event → Book event → Verify seat reduction", async ({ page }) =
   // Step 7 — Verify in My Bookings
   await page.getByText("View My Bookings").click();
   await expect(page).toHaveURL(`${BASE_URL}/bookings`);
+  const bookingCards = page.locator("#booking-card");
+  await expect(bookingCards.first()).toBeVisible();
+  const matchedCard = bookingCards.filter({
+    has: page.locator(".booking-ref", { hasText: bookingRef }),
+  });
+  await expect(matchedCard).toBeVisible();
+  await expect(matchedCard).toContainText(eventTitle);
+
+  // Step 8 — Verify seat reduction
+  await page.goto(`${BASE_URL}/events`);
+  await expect(cards.first()).toBeVisible();
+  const updatedCard = cards.filter({ hasText: eventTitle });
+  await expect(updatedCard).toBeVisible();
+  const updatedSeatText = await updatedCard.locator("text=/seat/i").innerText();
+  const seatsAfterBooking = parseInt(updatedSeatText.match(/\d+/)[0]);
+  await expect(seatsAfterBooking).toBe(seatsBeforeBooking - 1);
 });
