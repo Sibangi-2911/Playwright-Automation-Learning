@@ -13,4 +13,12 @@ test("Popup validations", async ({ page }) => {
   await expect(page.locator("#displayed-text")).toBeVisible();
   await page.locator("#hide-textbox").click();
   await expect(page.locator("#displayed-text")).toBeHidden();
+
+  //Handle alert popups
+  await page.pause();
+  page.on("dialog", (dialog) => dialog.accept()); // on listens to event and can use dismiss for slecting cancel in popup
+  await page.locator("#confirmbtn").click();
+
+  //handle hover options
+  await page.locator("#mousehover").hover();
 });
