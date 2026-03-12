@@ -15,10 +15,16 @@ test("Popup validations", async ({ page }) => {
   await expect(page.locator("#displayed-text")).toBeHidden();
 
   //Handle alert popups
-  await page.pause();
+  //await page.pause();
   page.on("dialog", (dialog) => dialog.accept()); // on listens to event and can use dismiss for slecting cancel in popup
   await page.locator("#confirmbtn").click();
 
   //handle hover options
   await page.locator("#mousehover").hover();
+
+  //Handle & Automate frames
+  const framesPage = page.frameLocator("#courses-iframe");
+  await framesPage.locator('a[href*="lifetime-access"]:visible').click();
+  const textCheck = await framesPage.locator(".text h2").textContent();
+  console.log(textCheck.split(" ")[1]);
 });
