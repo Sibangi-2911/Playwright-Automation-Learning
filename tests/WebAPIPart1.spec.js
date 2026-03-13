@@ -3,7 +3,15 @@ const loginPayLoad = {
   userEmail: "sibangiboxipatro@gmail.com",
   userPassword: "Sibangi@123",
 };
+const orderPayLoad = {
+  orders: [
+    { country: "Cuba", productOrderedId: "6960eae1c941646b7a8b3ed3" },
+    { country: "Cuba", productOrderedId: "6960eac0c941646b7a8b3e68" },
+    { country: "Cuba", productOrderedId: "6960ea76c941646b7a8b3dd5" },
+  ],
+};
 let token;
+let orderId;
 
 test.beforeAll(async () => {
   //Login API
@@ -16,6 +24,21 @@ test.beforeAll(async () => {
   const loginResponseJson = await loginResponse.json();
   token = loginResponseJson.token;
   console.log(token);
+
+  //Create Order API
+  const orderResponse = await apiContext.post(
+    "https://rahulshettyacademy.com/api/ecom/order/create-order",
+    {
+      data: orderPayLoad,
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+    },
+  );
+  const orderResponseJson = await orderResponse.json();
+  console.log(orderResponseJson);
+  orderId = orderResponseJson.orders[0];
 });
 
 test.only("Place the order", async ({ browser }) => {
@@ -39,68 +62,7 @@ test.only("Place the order", async ({ browser }) => {
   console.log(allTitles);
 
   //end to end automation testing
-  await page
-    .locator(".card-body")
-    .filter({ hasText: productName })
-    .getByRole("button", { name: "Add To Cart" })
-    .click();
-
-  await page
-    .getByRole("listitem")
-    .getByRole("button", { name: "Cart" })
-    .click();
-
-  await page.locator("div li").first().waitFor(); //becoz isVisible doesn't support auto wait
-  await expect(page.getByText(productName)).toBeVisible();
-
-  await page.getByRole("button", { name: "Checkout" }).click();
-
-  //credit card field
-  await page
-    .locator(".field:has-text('Credit Card Number') input")
-    .fill("4542993192922293");
-
-  //cvv code
-  await page.locator(".field:has-text('CVV Code') input").fill("204");
-
-  //Name on card
-  await page
-    .locator(".field:has-text('Name on Card') input")
-    .fill("SIBANGI BOXIPATRO");
-
-  //Apply Coupon
-  await page.locator("[name*='coupon']").fill("rahulshettyacademy");
-  await page.locator("[type = 'submit']").click();
-
-  //Expiry date dropdown
-  const expiryDropdowns = page.locator(".field:has-text('Expiry Date') select");
-  await expiryDropdowns.first().selectOption("03");
-  await expiryDropdowns.nth(1).selectOption("27");
-
-  //Shipping Information suggestive dropdown
-  const country = page.getByPlaceholder("Select Country");
-  await country.click();
-  await country.pressSequentially("ind", { delay: 150 });
-
-  await page.getByRole("button", { name: "India" }).nth(1).click();
-
-  //Shipping Information email
-  await expect(page.locator(".user__name [type='text']").first()).toHaveText(
-    "sibangiboxipatro@gmail.com",
-  );
-
-  //place order button
-  await page.getByText("Place Order").click();
-
-  //order confirmation page
-  await expect(page.getByText("Thankyou for the order.")).toBeVisible();
-
   //grab order id
-  const orderId = await page
-    .locator(".em-spacer-1 .ng-star-inserted")
-    .textContent();
-  console.log(orderId);
-
   //opening orders page
   await page.locator("button[routerlink*='/dashboard/myorders']").click();
   await page.locator("tbody").waitFor();
@@ -117,6 +79,7 @@ test.only("Place the order", async ({ browser }) => {
 
   //after view button is clicked
   const orderIdDetails = await page.locator(".col-text").textContent();
+  await page.pause();
   expect(orderId.includes(orderIdDetails)).toBeTruthy();
 
   await page.pause();
