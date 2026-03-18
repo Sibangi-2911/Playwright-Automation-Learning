@@ -6,7 +6,7 @@ import { defineConfig, devices } from "@playwright/test";
  */
 const config = {
   testDir: "./tests",
-  timeout: 400000,
+  timeout: 100 * 1000,
   launchOptions: {
     slowMo: 800,
   },
