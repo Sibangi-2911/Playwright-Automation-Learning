@@ -184,3 +184,30 @@ test("Banner IS visible when 6 events are returned", async ({ page }) => {
   await expect(banner).toBeVisible();
   await expect(banner).toContainText("9 bookings");
 });
+
+//Test 2 — Banner is NOT visible when 4 events are returned
+
+test.only("Banner is NOT visible when 4 events are returned", async ({
+  page,
+}) => {
+  //Step 1-- Mock API
+  await page.route("**/api/events**", async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify(FOUR_EVENTS_RESPONSE),
+    });
+  });
+
+  // Step 2: Login & navigate
+  await loginAndGoToEvents(page);
+
+  // Step 3 — Verify cards loaded from mock
+  const cards = page.locator('[data-testid="event-card"]');
+  await expect(cards.first()).toBeVisible();
+  await expect(cards).toHaveCount(4);
+
+  // Step 4 — Verify banner hidden
+  const banner = page.getByText(/sandbox holds up to/i);
+  await expect(banner).toBeHidden();
+});
