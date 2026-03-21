@@ -1,4 +1,4 @@
-// Assignment: Cross-User Booking Access  is denied
+// Assignment to be done: Cross-User Booking Access  is denied
 //What you are testing: User A (Yahoo) creates a booking via a direct API call — no browser UI involved. User B (Gmail) logs in through the browser and tries to open that booking's URL directly. User B must see an "Access Denied" error.
 
 const { test, expect, request } = require("@playwright/test");
