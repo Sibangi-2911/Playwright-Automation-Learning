@@ -29,8 +29,8 @@ test("Popup validations", async ({ page }) => {
   console.log(textCheck.split(" ")[1]);
 });
 
-//Screenshot & Visual Testing
-test.only("Screenshot & Visual comparison", async ({ page }) => {
+//Screenshot
+test("Screenshot & Visual comparison", async ({ page }) => {
   await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
   await page.waitForLoadState();
 
@@ -42,4 +42,21 @@ test.only("Screenshot & Visual comparison", async ({ page }) => {
   await page.locator("#hide-textbox").click();
   await page.screenshot({ path: "screenshot.png" }); //Complete page screenshot
   await expect(page.locator("#displayed-text")).toBeHidden();
+});
+
+//Visual Testing---- Take actual screenshot today--> then store---> then again while testing screenshot taken to compare it with previous one
+test("Visual Testing", async ({ page }) => {
+  await page.goto("https://www.flightaware.com/");
+
+  await page.waitForLoadState("networkidle");
+
+  // Example: capture only header (stable area)
+  const header = page.locator("header");
+
+  await expect(header).toHaveScreenshot("header.png");
+});
+
+test.only("Visual", async ({ page }) => {
+  await page.goto("http://google.com");
+  expect(await page.screenshot()).toMatchSnapshot("landingPage.png");
 });
