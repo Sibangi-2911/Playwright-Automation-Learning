@@ -9,7 +9,13 @@ async function excelTest() {
   const worksheet = workbook.getWorksheet("Sheet1");
   worksheet.eachRow((row, rowNumber) => {
     row.eachCell((cell, colNumber) => {
-      console.log(cell.value);
+      //console.log(cell.value);
+
+      //To find the desired text in the excel sheet
+      if (cell.value === "Apple") {
+        console.log(rowNumber);
+        console.log(colNumber);
+      }
     });
   });
 }
