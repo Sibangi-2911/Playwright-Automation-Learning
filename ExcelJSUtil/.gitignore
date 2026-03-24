@@ -1,0 +1,15 @@
+<<<<<<< HEAD
+node_modules/
+=======
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+node_modules
+playwright-report
+test-results
+>>>>>>> 72ef025c5f3e85a9a189866fc57e1bd081609cbb
