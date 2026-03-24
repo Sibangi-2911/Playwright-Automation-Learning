@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "name": "exceljsutil",
   "version": "1.0.0",
   "main": "index.js",
@@ -11,20 +10,5 @@
   "description": "",
   "dependencies": {
     "exceljs": "^4.4.0"
-=======
-  "name": "playwright-automation",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "npx playwright test tests/WebAPIPart1.spec.js --headed"
-  },
-  "keywords": [],
-  "author": "Sibangi",
-  "license": "ISC",
-  "description": "",
-  "devDependencies": {
-    "@playwright/test": "^1.58.2",
-    "@types/node": "^25.3.0"
->>>>>>> 72ef025c5f3e85a9a189866fc57e1bd081609cbb
   }
 }
