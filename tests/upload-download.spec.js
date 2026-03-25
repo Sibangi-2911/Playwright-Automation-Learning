@@ -30,6 +30,8 @@ async function readExcel(worksheet, searchText) {
 }
 
 test("upload download excel validation", async ({ page }) => {
+  const textSearch = "Mango";
+  const updateValue = "350";
   await page.goto(
     "https://rahulshettyacademy.com/upload-download-test/index.html",
   );
@@ -40,8 +42,8 @@ test("upload download excel validation", async ({ page }) => {
   // const filePath = "C:/Users/Sibangi Boxipatro/Downloads/download.xlsx";
   // await download.saveAs(filePath);
   await writeExcelTest(
-    "Mango",
-    350,
+    textSearch,
+    updateValue,
     { rowChange: 0, colChange: 2 },
     "C:/Users/Sibangi Boxipatro/Downloads/download.xlsx",
   );
@@ -49,4 +51,9 @@ test("upload download excel validation", async ({ page }) => {
   await page
     .locator("#fileinput")
     .setInputFiles("C:/Users/Sibangi Boxipatro/Downloads/download.xlsx");
+  const textlocator = page.getByText(textSearch);
+  const desiredRow = await page.getByRole("row").filter({ has: textlocator });
+  await expect(desiredRow.locator("#cell-4-undefined")).toContainText(
+    updateValue,
+  );
 });
