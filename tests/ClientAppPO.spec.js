@@ -2,6 +2,7 @@
 const { test, expect } = require("@playwright/test");
 const { LoginPage } = require("../pageobjects/LoginPage");
 const { DashboardPage } = require("../pageobjects/DashboardPage");
+const { CartPage } = require("../pageobjects/CartPage");
 
 test.only("Login Test", async ({ browser }) => {
   const username = "sibangiboxipatro@gmail.com";
@@ -19,10 +20,9 @@ test.only("Login Test", async ({ browser }) => {
   await dashboardPage.addProductToCart(productName);
   await dashboardPage.navigateToCart();
 
-  await page.locator("div li").first().waitFor(); //becoz isVisible doesn't support auto wait
-  await expect(page.getByText(productName)).toBeVisible();
-
-  await page.getByRole("button", { name: "Checkout" }).click();
+  const cartPage = new CartPage(page);
+  await cartPage.verifyProductInCart(productName);
+  await cartPage.proceedToCheckout();
 
   //credit card field
   await page
