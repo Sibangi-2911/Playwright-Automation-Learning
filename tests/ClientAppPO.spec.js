@@ -1,40 +1,23 @@
 //End to end page object test
 const { test, expect } = require("@playwright/test");
 const { LoginPage } = require("../pageobjects/LoginPage");
+const { DashboardPage } = require("../pageobjects/DashboardPage");
 
 test.only("Login Test", async ({ browser }) => {
   const username = "sibangiboxipatro@gmail.com";
   const password = "Sibangi@123";
   const context = await browser.newContext();
   const page = await context.newPage();
-  const products = page.locator(".card-body");
 
   const loginPage = new LoginPage(page);
-  loginPage.goTo();
-  loginPage.validLogin(username, password);
+  await loginPage.goTo();
+  await loginPage.validLogin(username, password);
 
   const productName = "ZARA COAT 3";
-  const cardTitle = page.locator(".card-body b");
-
   await expect(page).toHaveTitle("Let's Shop");
-
-  //wait mechanism in service based applications
-  await page.waitForLoadState("networkidle");
-  await page.locator(".card-body b").first().waitFor();
-  const allTitles = await cardTitle.allTextContents();
-  console.log(allTitles);
-
-  //end to end automation testing
-  await page
-    .locator(".card-body")
-    .filter({ hasText: productName })
-    .getByRole("button", { name: "Add To Cart" })
-    .click();
-
-  await page
-    .getByRole("listitem")
-    .getByRole("button", { name: "Cart" })
-    .click();
+  const dashboardPage = new DashboardPage(page);
+  await dashboardPage.addProductToCart(productName);
+  await dashboardPage.navigateToCart();
 
   await page.locator("div li").first().waitFor(); //becoz isVisible doesn't support auto wait
   await expect(page.getByText(productName)).toBeVisible();
