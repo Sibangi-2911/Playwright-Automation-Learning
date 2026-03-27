@@ -3,6 +3,7 @@ const { test, expect } = require("@playwright/test");
 const { LoginPage } = require("../pageobjects/LoginPage");
 const { DashboardPage } = require("../pageobjects/DashboardPage");
 const { CartPage } = require("../pageobjects/CartPage");
+const { CheckoutPage } = require("../pageobjects/CheckoutPage");
 
 test.only("Login Test", async ({ browser }) => {
   const username = "sibangiboxipatro@gmail.com";
@@ -24,42 +25,13 @@ test.only("Login Test", async ({ browser }) => {
   await cartPage.verifyProductInCart(productName);
   await cartPage.proceedToCheckout();
 
-  //credit card field
-  await page
-    .locator(".field:has-text('Credit Card Number') input")
-    .fill("4542993192922293");
-
-  //cvv code
-  await page.locator(".field:has-text('CVV Code') input").fill("204");
-
-  //Name on card
-  await page
-    .locator(".field:has-text('Name on Card') input")
-    .fill("SIBANGI BOXIPATRO");
-
-  //Apply Coupon
-  await page.locator("[name*='coupon']").fill("rahulshettyacademy");
-  await page.locator("[type = 'submit']").click();
-
-  //Expiry date dropdown
-  const expiryDropdowns = page.locator(".field:has-text('Expiry Date') select");
-  await expiryDropdowns.first().selectOption("03");
-  await expiryDropdowns.nth(1).selectOption("27");
-
-  //Shipping Information suggestive dropdown
-  const country = page.getByPlaceholder("Select Country");
-  await country.click();
-  await country.pressSequentially("ind", { delay: 150 });
-
-  await page.getByRole("button", { name: "India" }).nth(1).click();
-
-  //Shipping Information email
-  await expect(page.locator(".user__name [type='text']").first()).toHaveText(
-    username,
-  );
-
-  //place order button
-  await page.getByText("Place Order").click();
+  const checkoutPage = new CheckoutPage(page);
+  await checkoutPage.fillCardDetails();
+  await checkoutPage.applyCoupon("rahulshettyacademy");
+  await checkoutPage.selectExpiry("03", "27");
+  await checkoutPage.selectCountry();
+  await expect(checkoutPage.getUserEmailField()).toHaveValue(username);
+  await checkoutPage.placeOrder();
 
   //order confirmation page
   await expect(page.getByText("Thankyou for the order.")).toBeVisible();
