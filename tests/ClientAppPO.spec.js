@@ -32,13 +32,12 @@ test.only("Login Test", async ({ browser }) => {
   await checkoutPage.placeOrder();
 
   //order confirmation page
-  await expect(page.getByText("Thankyou for the order.")).toBeVisible();
+  const orderConfirmation = poManager.getOrderConfirmationPage();
+  await expect(orderConfirmation.verifyOrderConfirmation()).toBeVisible();
 
   //grab order id
-  const orderId = await page
-    .locator(".em-spacer-1 .ng-star-inserted")
-    .textContent();
-  console.log(orderId);
+  const orderId = await orderConfirmation.getOrderId();
+  console.log("Order ID: ", orderId);
 
   //opening orders page
   await page.locator("button[routerlink*='/dashboard/myorders']").click();
