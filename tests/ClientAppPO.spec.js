@@ -1,5 +1,6 @@
 //End to end page object test
 const { test, expect } = require("@playwright/test");
+const { customTest } = require("../Utils/test-base");
 const { POManager } = require("../pageobjects/POManager");
 //json-->string-->js object (conversion for  testdata)
 const dataset = JSON.parse(
@@ -8,7 +9,7 @@ const dataset = JSON.parse(
 
 //Parameterization in running tests
 for (const data of dataset) {
-  test.only(`Login Test for ${data.productName}`, async ({ browser }) => {
+  test(`Login Test for ${data.productName}`, async ({ browser }) => {
     const context = await browser.newContext();
     const page = await context.newPage();
     const poManager = new POManager(page);
@@ -52,6 +53,39 @@ for (const data of dataset) {
     await page.pause();
   });
 }
+
+//Parameterization
+customTest.only(`Login Test`, async ({ browser, testDataForOrder }) => {
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  const poManager = new POManager(page);
+
+  const loginPage = poManager.getLoginPage();
+  await loginPage.goTo();
+  await loginPage.validLogin(
+    testDataForOrder.username,
+    testDataForOrder.password,
+  );
+
+  await expect(page).toHaveTitle("Let's Shop");
+  const dashboardPage = poManager.getDashboardPage();
+  await dashboardPage.addProductToCart(testDataForOrder.productName);
+  await dashboardPage.navigateToCart();
+
+  const cartPage = poManager.getCartPage();
+  await cartPage.verifyProductInCart(testDataForOrder.productName);
+  await cartPage.proceedToCheckout();
+
+  const checkoutPage = poManager.getCheckoutPage();
+  await checkoutPage.fillCardDetails();
+  await checkoutPage.applyCoupon("rahulshettyacademy");
+  await checkoutPage.selectExpiry("03", "27");
+  await checkoutPage.selectCountry();
+  await expect(checkoutPage.getUserEmailField()).toHaveValue(
+    testDataForOrder.username,
+  );
+  await checkoutPage.placeOrder();
+});
 
 test("Page Playwright test", async ({ page }) => {
   await page.goto("https://google.com");
