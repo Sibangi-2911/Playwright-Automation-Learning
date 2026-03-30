@@ -1,31 +1,29 @@
 //End to end page object test
 const { test, expect } = require("@playwright/test");
-const { LoginPage } = require("../pageobjects/LoginPage");
-const { DashboardPage } = require("../pageobjects/DashboardPage");
-const { CartPage } = require("../pageobjects/CartPage");
-const { CheckoutPage } = require("../pageobjects/CheckoutPage");
+const { POManager } = require("../pageobjects/POManager");
 
 test.only("Login Test", async ({ browser }) => {
   const username = "sibangiboxipatro@gmail.com";
   const password = "Sibangi@123";
   const context = await browser.newContext();
   const page = await context.newPage();
+  const poManager = new POManager(page);
 
-  const loginPage = new LoginPage(page);
+  const loginPage = poManager.getLoginPage();
   await loginPage.goTo();
   await loginPage.validLogin(username, password);
 
   const productName = "ZARA COAT 3";
   await expect(page).toHaveTitle("Let's Shop");
-  const dashboardPage = new DashboardPage(page);
+  const dashboardPage = poManager.getDashboardPage();
   await dashboardPage.addProductToCart(productName);
   await dashboardPage.navigateToCart();
 
-  const cartPage = new CartPage(page);
+  const cartPage = poManager.getCartPage();
   await cartPage.verifyProductInCart(productName);
   await cartPage.proceedToCheckout();
 
-  const checkoutPage = new CheckoutPage(page);
+  const checkoutPage = poManager.getCheckoutPage();
   await checkoutPage.fillCardDetails();
   await checkoutPage.applyCoupon("rahulshettyacademy");
   await checkoutPage.selectExpiry("03", "27");
