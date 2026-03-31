@@ -1,6 +1,6 @@
 //intercept- create fake environment for that session only to test something
 const { test, expect, request } = require("@playwright/test");
-const { APIUtils } = require("./Utils/APIUtils");
+const { APIUtils } = require("../Utils/APIUtils");
 const loginPayLoad = {
   userEmail: "sibangiboxipatro@gmail.com",
   userPassword: "Sibangi@123",
