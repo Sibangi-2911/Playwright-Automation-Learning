@@ -7,7 +7,7 @@ const dataset = JSON.parse(
   JSON.stringify(require("../Utils/placeOrderTestData.json")),
 );
 
-//Parameterization in running tests
+//Parameterization in the running tests
 for (const data of dataset) {
   test(`Login Test for ${data.productName}`, async ({ browser }) => {
     const context = await browser.newContext();
