@@ -6,7 +6,7 @@ class LoginPage {
     this.password = page.getByPlaceholder("enter your passsword");
   }
 
-  //Reusable utility for login-------> actions performed in login page included here
+  //Reusable utility for login-------> actions performed in the login page included here
   async goTo() {
     await this.page.goto("https://rahulshettyacademy.com/client/#/auth/login");
     await this.page.waitForLoadState("networkidle"); // ✅ ensures page is stable
