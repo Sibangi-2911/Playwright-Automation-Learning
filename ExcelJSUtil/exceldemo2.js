@@ -1,6 +1,6 @@
 const ExcelJS = require("exceljs");
 
-//wrapped the code in asynchronous function
+//wrapped the code in an asynchronous function
 async function writeExcelTest(searchText, replacedText, change, filePath) {
   const workbook = new ExcelJS.Workbook();
   await workbook.xlsx.readFile(filePath);
