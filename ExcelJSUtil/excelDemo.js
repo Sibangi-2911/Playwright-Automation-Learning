@@ -10,7 +10,7 @@ workbook.xlsx
     //1--> Tell which sheet you are working on
     const worksheet = workbook.getWorksheet("Sheet1");
 
-    //print all values---> iterate over each row
+    //print all the values---> iterate over each row
     worksheet.eachRow((row, rowNumber) => {
       //inner loop---> for a particular cell
       row.eachCell((cell, colNumber) => {
