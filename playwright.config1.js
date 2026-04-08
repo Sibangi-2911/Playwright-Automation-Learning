@@ -35,6 +35,7 @@ const config = {
         screenshot: "on",
         ignoreHttpsErrors: true, //if not ssl certified
         permissions: ["geolocation"], //for allowing location popup
+        video: "retain-on-failure",
         trace: "retain-on-failure", //generate trace only on failure for debugging
         viewport: { width: 720, height: 720 }, //sets the bowser window size--->web responsive testing
       },
