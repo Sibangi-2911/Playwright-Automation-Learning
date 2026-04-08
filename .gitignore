@@ -1,11 +1,16 @@
-
-# Playwright
+# Dependencies
 node_modules/
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
-/playwright/.auth/
-node_modules
-playwright-report
-test-results
+
+# Playwright outputs
+test-results/
+playwright-report/
+blob-report/
+allure-results/
+
+# Playwright internal cache
+playwright/.cache/
+playwright/.auth/
+
+# OS files
+.DS_Store
+Thumbs.db
