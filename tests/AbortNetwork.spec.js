@@ -1,6 +1,6 @@
 const { test, expect } = require("@playwright/test");
 
-test.only("Browser Context Playwright test", async ({ browser }) => {
+test("Browser Context Playwright test", async ({ browser }) => {
   const context = await browser.newContext();
   const page = await context.newPage();
   //await page.route("**/*.css", (route) => route.abort());

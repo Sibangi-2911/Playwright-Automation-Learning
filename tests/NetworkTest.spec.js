@@ -24,7 +24,7 @@ test.beforeAll(async () => {
   response = await apiUtils.createOrder(orderPayLoad);
 });
 
-test.only("Place the order", async ({ browser }) => {
+test("Place the order", async ({ browser }) => {
   const context = await browser.newContext();
   //insert javascript inside this to add cookies to storage
   await context.addInitScript((value) => {

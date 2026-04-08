@@ -187,9 +187,7 @@ test("Banner IS visible when 6 events are returned", async ({ page }) => {
 
 //Test 2 — Banner is NOT visible when 4 events are returned
 
-test.only("Banner is NOT visible when 4 events are returned", async ({
-  page,
-}) => {
+test("Banner is NOT visible when 4 events are returned", async ({ page }) => {
   //Step 1-- Mock API
   await page.route("**/api/events**", async (route) => {
     await route.fulfill({

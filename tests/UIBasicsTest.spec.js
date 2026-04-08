@@ -1,6 +1,6 @@
 const { test, expect } = require("@playwright/test");
 
-test("Browser Context Playwright test", async ({ browser }) => {
+test("@Web Browser Context Playwright test", async ({ browser }) => {
   const context = await browser.newContext();
   const page = await context.newPage();
   const userName = page.locator("#username");
@@ -28,7 +28,7 @@ test("Browser Context Playwright test", async ({ browser }) => {
   console.log(allTitles);
 });
 
-test("UI Controls", async ({ page }) => {
+test("@Web UI Controls", async ({ page }) => {
   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
   const userName = page.locator("#username");
   const signIn = page.locator("#signInBtn");
@@ -58,7 +58,7 @@ test("UI Controls", async ({ page }) => {
   //await page.pause(); //execution will pause before closing , as it is very fast
 });
 
-test.only("Child Windows Handling", async ({ browser }) => {
+test("Child Windows Handling", async ({ browser }) => {
   //original page
   const context = await browser.newContext();
   const page = await context.newPage();

@@ -9,7 +9,7 @@ const dataset = JSON.parse(
 
 //Parameterization in the running tests
 for (const data of dataset) {
-  test(`Login Test for ${data.productName}`, async ({ browser }) => {
+  test(`@Web Login Test for ${data.productName}`, async ({ browser }) => {
     const context = await browser.newContext();
     const page = await context.newPage();
     const poManager = new POManager(page);
@@ -55,7 +55,7 @@ for (const data of dataset) {
 }
 
 //Parameterization
-customTest.only(`Login Test`, async ({ browser, testDataForOrder }) => {
+customTest(`Login Test`, async ({ browser, testDataForOrder }) => {
   const context = await browser.newContext();
   const page = await context.newPage();
   const poManager = new POManager(page);

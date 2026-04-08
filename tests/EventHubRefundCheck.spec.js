@@ -80,9 +80,7 @@ test("Single ticket booking should be eligible for refund", async ({
 });
 
 // TEST 2 — Group Ticket Booking → NOT Eligible for Refund
-test.only("Group ticket booking is NOT eligible for refund", async ({
-  page,
-}) => {
+test("Group ticket booking is NOT eligible for refund", async ({ page }) => {
   // Step 1 — Login
   await loginAndGoToBooking(page);
 

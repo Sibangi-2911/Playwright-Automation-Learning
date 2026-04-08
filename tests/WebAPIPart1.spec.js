@@ -1,5 +1,5 @@
 const { test, expect, request } = require("@playwright/test");
-const { APIUtils } = require("./Utils/APIUtils");
+const { APIUtils } = require("../Utils/APIUtils");
 const loginPayLoad = {
   userEmail: "sibangiboxipatro@gmail.com",
   userPassword: "Sibangi@123",
@@ -22,7 +22,7 @@ test.beforeAll(async () => {
   response = await apiUtils.createOrder(orderPayLoad);
 });
 
-test.only("Place the order", async ({ browser }) => {
+test("@Web Place the order", async ({ browser }) => {
   const context = await browser.newContext();
   //insert javascript inside this to add cookies to storage
   await context.addInitScript((value) => {
