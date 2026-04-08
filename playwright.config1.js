@@ -7,6 +7,7 @@ import { defineConfig, devices } from "@playwright/test";
 const config = {
   testDir: "./tests",
   retries: 1, //No. of retries to be done if test fails
+  workers: 3, //for parallel execution among the test files--- by default it is 3
   timeout: 40 * 1000,
   launchOptions: {
     slowMo: 800,
