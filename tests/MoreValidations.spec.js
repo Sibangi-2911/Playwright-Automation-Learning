@@ -1,5 +1,7 @@
 const { test, expect } = require("@playwright/test");
 
+//Run tests inside a test file in parallel as by default they run in serial manner
+test.describe.configure({ mode: "parallel" });
 test("Popup validations", async ({ page }) => {
   await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
 
