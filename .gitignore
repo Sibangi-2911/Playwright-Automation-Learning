@@ -6,6 +6,7 @@ test-results/
 playwright-report/
 blob-report/
 allure-results/
+allure-report/
 
 # Playwright internal cache
 playwright/.cache/
