@@ -16,9 +16,15 @@ class DashboardPage {
   }
 
   async navigateToCart() {
+    // wait for spinner to disappear
     await this.page
-      .getByRole("listitem")
-      .getByRole("button", { name: "Cart" })
+      .locator(".ngx-spinner-overlay")
+      .waitFor({ state: "hidden" });
+
+    // ✅ scope to navigation (fixes strict mode)
+    await this.page
+      .locator("nav")
+      .getByRole("button", { name: /Cart/ })
       .click();
   }
 }
