@@ -25,7 +25,7 @@ const config = {
         headless: false,
         screenshot: "on",
         trace: "retain-on-failure", //generate trace only on failure for debugging
-        ...devices["iPhone 11"],
+        ...devices["iPad Pro 11"],
       },
     },
     {
